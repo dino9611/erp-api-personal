@@ -19,4 +19,8 @@ export const rolesSeed = [
       "delete-item",
     ],
   },
+  {
+    name: "user",
+    permissions: ["menu-user", "read-user"],
+  },
 ];

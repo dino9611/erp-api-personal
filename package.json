@@ -14,7 +14,7 @@
     "build:resolve-path": "tsc-alias --project tsconfig.build.json",
     "build": "rimraf build && npm run build:compile && npm run build:resolve-path",
     "start": "node build/index.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand --detectOpenHandles",
     "test:coverage": "rimraf coverage && npm run test -- --coverage",
     "lint": "eslint ./src/**/*.ts",
     "lint:fix": "npm run lint -- --fix",

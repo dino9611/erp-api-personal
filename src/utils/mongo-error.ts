@@ -3,7 +3,7 @@ import { MongoServerError } from "mongodb";
 
 export default class MongoError extends BaseError {
   constructor(err: MongoServerError) {
-    const error: IError = find(400) as IHttpStatus;
+    let error: IError = find(400) as IHttpStatus;
     if (err.code === 121) {
       error.errors = {} as any;
       const errorMessage = err.errInfo?.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied;
@@ -14,6 +14,8 @@ export default class MongoError extends BaseError {
       });
       console.log(error.errors);
     } else if (err.code === 11000) {
+      error = find(422) as IHttpStatus;
+      console.log(err);
       // error.errors = {} as any;
       // const errorMessage = err.errInfo?.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied;
       // errorMessage.forEach((element: any) => {

@@ -8,14 +8,14 @@ const result = await roleRepository.readMany({
   fields: "",
   filter: {},
   page: 1,
-  pageSize: 1,
+  pageSize: 2,
   sort: "",
 });
 
 const roles = result.data as unknown as Array<RoleInterface>;
 
-const password = await hash("admin123");
-
+const password = await hash("admin2024");
+const userPassword = await hash("user2024");
 export const usersSeed = [
   {
     username: "admin",
@@ -23,5 +23,22 @@ export const usersSeed = [
     password: password,
     name: "Admin",
     role_id: roles[0]._id,
+    role: roles[0].name,
   },
+  {
+    username: "user",
+    email: "user@example.com",
+    password: userPassword,
+    name: "user",
+    role_id: roles[1]._id,
+    role: roles[1].name,
+  },
+  // {
+  //   username: "user",
+  //   email: "user@example.com",
+  //   password: userPassword,
+  //   name: "user",
+  //   role_id: roles[1]._id,
+  //   role: roles[1].name,
+  // },
 ];

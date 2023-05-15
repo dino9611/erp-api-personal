@@ -3,10 +3,10 @@ import { createApp } from "@src/app.js";
 
 describe("delete item", () => {
   let _id = "";
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = await createApp();
     // get access token for authorization request
-    const authResponse = await request(app).patch("/v1/auth/signin").send({
+    const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
       password: "admin2024",
     });
@@ -27,6 +27,7 @@ describe("delete item", () => {
       ],
     };
     const response = await request(app).post("/v1/items").send(data).set("Authorization", `Bearer ${accessToken}`);
+    console.log(response.body, "response body");
     _id = response.body._id;
   });
   it("should check user is authorized", async () => {

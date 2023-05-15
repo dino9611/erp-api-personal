@@ -1,12 +1,23 @@
 import request from "supertest";
 import { createApp } from "@src/app.js";
+import { db } from "@src/database/database.js";
+import { DestroyAllItemService } from "@src/modules/items/services/destroy-all.service.js";
+async function CleanUp() {
+  const session = db.startSession();
+  const deleteAllItemService = new DestroyAllItemService(db);
+  await deleteAllItemService.handle(session);
+  await db.endSession();
+}
 
 describe("archive item", () => {
   let _id = "";
-  beforeEach(async () => {
+  afterAll(() => {
+    CleanUp();
+  });
+  beforeAll(async () => {
     const app = await createApp();
     // get access token for authorization request
-    const authResponse = await request(app).patch("/v1/auth/signin").send({
+    const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
       password: "admin2024",
     });
@@ -72,6 +83,6 @@ describe("archive item", () => {
     // expected response status
     expect(response.statusCode).toEqual(200);
     // expected response body
-    expect(response.body.isArchived).toBe(true);
+    expect(response.body.data.isArchived).toBe(true);
   });
 });
